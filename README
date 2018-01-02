@@ -1,0 +1,48 @@
+---------------
+Qt AGLExtras
+---------------
+
+Qt AGLExtras module provides a set of easy to create AGL Qt application.
+It uses the AGL HMI and application framework, therefore the application
+can be easily integrated to AGL HomeScreen/WindowManager on AGL Demo
+Platform.
+
+System Requirements
+===================
+
+- Qt 5.8 or newer
+- QtQuick 2 is required
+- AGL Application Framework 2.0 or newer
+- AGL HMI Framework 2017 or newer
+
+Building
+========
+
+Configure the project with qmake:
+    qmake
+
+After running qmake, build the project with make:
+    make
+
+The above generates the default makefiles for your configuration, which is
+typically the release build if you are using precompiled binary AGL
+distribution. To build both debug and release, or one specifically, use
+of the following qmake lines instead.
+
+For debug builds:
+    qmake CONFIG+=debug
+    make
+  or
+    qmake CONFIG+=debug_and_release
+    make debug
+
+For release builds:
+    qmake CONFIG+=release
+  or
+    qmake CONFIG+=debug_and_release
+
+After building, install the module to your AGL SDK directory:
+    make install
+
+If you want to uninstall the module:
+    make uninstall

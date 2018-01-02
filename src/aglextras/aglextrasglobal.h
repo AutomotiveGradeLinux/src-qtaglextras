@@ -1,0 +1,20 @@
+#ifndef AGLEXTRASGLOBAL_H
+#define AGLEXTRASGLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+QT_BEGIN_NAMESPACE
+
+#ifndef QT_STATIC
+#if defined (QT_BUILD_AGLEXTRAS_LIB)
+#define AGLEXTRAS_EXPORT Q_DECL_EXPORT
+#else
+#define AGLEXTRAS_EXPORT Q_DECL_IMPORT
+#endif
+#else
+#define AGLEXTRAS_EXPORT
+#endif
+
+QT_END_NAMESPACE
+
+#endif // AGLEXTRASGLOBAL_H
