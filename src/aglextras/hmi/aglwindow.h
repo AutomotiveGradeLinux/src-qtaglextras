@@ -21,13 +21,12 @@
 #include <QtAGLExtras/aglextrasglobal.h>
 #include <QSharedPointer>
 
-#include <libhomescreen.hpp>
-#include <qlibwindowmanager.h>
-
 QT_BEGIN_NAMESPACE
+class LibHomeScreen;
+class QLibWindowmanager;
 class QQmlApplicationEngine;
 class AGLWindowPrivate;
-class AGLEXTRAS_EXPORT AGLWindow : public QLibWindowmanager, public LibHomeScreen
+class AGLEXTRAS_EXPORT AGLWindow : public QObject
 {
     Q_OBJECT
 
@@ -41,6 +40,8 @@ public slots:
 private:
     friend class AGLWindowPrivate;
     QSharedPointer<AGLWindowPrivate> d_ptr;
+    QSharedPointer<LibHomeScreen> h_ptr;
+    QSharedPointer<QLibWindowmanager> w_ptr;
 };
 QT_END_NAMESPACE
 

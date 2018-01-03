@@ -1,13 +1,13 @@
 TARGET = QtAGLExtras
 
-CONFIG += link_pkgconfig
-PKGCONFIG += libhomescreen qlibwindowmanager
-
 QT += quick
 QT += core-private
 
 include(hmi/hmi.pri)
 
-load(qt_module)
+qtConfig(agl_hmi_framework) {
+    DEFINES += USE_AGL_HMI_FRAMEWORK
+    QMAKE_USE += libhomescreen qlibwindowmanager
+}
 
-CONFIG-=create_cmake
+load(qt_module)

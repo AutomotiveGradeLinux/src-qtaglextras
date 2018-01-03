@@ -1,0 +1,65 @@
+{
+    "module": "aglextras",
+    "depends" : [
+        "core"
+    ],
+    "testDir": "../../config.tests",
+
+    "commandline": {
+        "options": {
+            "libhomescreen": "boolean",
+            "qlibwindowmanager": "boolean"
+        }
+    },
+
+    "libraries": {
+        "libhomescreen": {
+            "label": "LibHomescreen",
+            "test": "libhomescreen",
+            "sources": [
+                { "type": "pkgConfig",
+                  "args": "libhomescreen" }
+            ]
+        },
+        "qlibwindowmanager": {
+            "label": "QLibWindowManager",
+            "test": "qlibwindowmanager",
+            "sources": [
+                { "type": "pkgConfig",
+                  "args": "qlibwindowmanager" }
+            ]
+        }
+    },
+
+    "features": {
+        "libhomescreen": {
+            "label": "LibHomeScreen",
+            "condition": "libs.libhomescreen",
+            "output": [ "feature", "privateFeature" ]
+        },
+        "qlibwindowmanager": {
+             "label": "QLibWindowManager",
+             "condition": "libs.qlibwindowmanager",
+             "output": [ "feature", "privateFeature" ]
+        },
+        "agl_hmi_framework": {
+             "label": "AGL HMI Framework",
+             "condition": "features.libhomescreen && features.qlibwindowmanager",
+             "output": [ "feature", "privateFeature" ]
+        }
+    },
+
+    "report" : [
+    ],
+
+    "summary": [
+        {
+            "section": "Qt AGLExtras",
+            "entries": [
+                "libhomescreen",
+                "qlibwindowmanager",
+                "agl_hmi_framework"
+            ]
+        }
+    ]
+}
