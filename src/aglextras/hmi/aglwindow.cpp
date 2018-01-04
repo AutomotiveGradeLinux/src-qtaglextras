@@ -60,7 +60,7 @@ void AGLWindow::attach (QQmlApplicationEngine* engine)
     }
 }
 #else
-void AGLWindow::attach (QQmlApplicationEngine*)
+void AGLWindow::attach (QQmlApplicationEngine* engine)
 {
     QQuickWindow *window = qobject_cast<QQuickWindow *>(engine->rootObjects().first());
     window->resize(1080, 1920 - 218 - 215);
