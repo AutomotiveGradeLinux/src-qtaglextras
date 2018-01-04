@@ -28,8 +28,10 @@
 
 QT_BEGIN_NAMESPACE
 
-AGLApplicationPrivate::AGLApplicationPrivate (AGLApplication*)
+AGLApplicationPrivate::AGLApplicationPrivate (AGLApplication *app)
         : binding_address(new QUrl)
+        , engine(new QQmlApplicationEngine(app))
+
 {
     ;
 }
@@ -73,7 +75,6 @@ AGLApplication::AGLApplication (int& argc, char** argv)
     query.addQueryItem(QStringLiteral("token"), d_ptr->secret);
     d_ptr->binding_address->setQuery(query);
 
-    d_ptr->engine = new QQmlApplicationEngine();
     if (!d_ptr->engine) {
         qDebug("Cannot initialize QML Engine");
         exit(EXIT_FAILURE);
