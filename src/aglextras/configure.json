@@ -8,7 +8,7 @@
     "commandline": {
         "options": {
             "libhomescreen": "boolean",
-            "qlibwindowmanager": "boolean"
+            "libwindowmanager": "boolean"
         }
     },
 
@@ -21,12 +21,12 @@
                   "args": "libhomescreen" }
             ]
         },
-        "qlibwindowmanager": {
-            "label": "QLibWindowManager",
-            "test": "qlibwindowmanager",
+        "libwindowmanager": {
+            "label": "LibWindowManager",
+            "test": "libwindowmanager",
             "sources": [
                 { "type": "pkgConfig",
-                  "args": "qlibwindowmanager" }
+                  "args": "libwindowmanager" }
             ]
         }
     },
@@ -37,14 +37,14 @@
             "condition": "libs.libhomescreen",
             "output": [ "feature", "privateFeature" ]
         },
-        "qlibwindowmanager": {
-             "label": "QLibWindowManager",
-             "condition": "libs.qlibwindowmanager",
+        "libwindowmanager": {
+             "label": "LibWindowManager",
+             "condition": "libs.libwindowmanager",
              "output": [ "feature", "privateFeature" ]
         },
         "agl_hmi_framework": {
              "label": "AGL HMI Framework",
-             "condition": "features.libhomescreen && features.qlibwindowmanager",
+             "condition": "features.libhomescreen && features.libwindowmanager",
              "output": [ "feature", "privateFeature" ]
         }
     },
@@ -57,7 +57,7 @@
             "section": "Qt AGLExtras",
             "entries": [
                 "libhomescreen",
-                "qlibwindowmanager",
+                "libwindowmanager",
                 "agl_hmi_framework"
             ]
         }

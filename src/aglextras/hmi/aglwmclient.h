@@ -15,34 +15,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef AGLWINDOW_H
-#define AGLWINDOW_H
+#ifndef AGLWMCLIENT_H
+#define AGLWMCLIENT_H
 
 #include <QtAGLExtras/aglextrasglobal.h>
 #include <QSharedPointer>
 
 QT_BEGIN_NAMESPACE
 class LibHomeScreen;
-class QLibWindowmanager;
+class LibWindowmanager;
 class QQmlApplicationEngine;
-class AGLWindowPrivate;
-class AGLEXTRAS_EXPORT AGLWindow : public QObject
+class AGLWmClientPrivate;
+class AGLEXTRAS_EXPORT AGLWmClient : public QObject
 {
     Q_OBJECT
 
 public:
-    AGLWindow (const QString& layout, int port, QString secret);
+    AGLWmClient (const QString& layout, int port, QString secret);
     void attach (QQmlApplicationEngine* engine);
 
-public slots:
-    void activate_surface (void);
+private slots:
+    void disconnect_frame_swapped (void);
 
 private:
-    friend class AGLWindowPrivate;
-    QSharedPointer<AGLWindowPrivate> d_ptr;
+    void activate_window (void);
+    friend class AGLWmClientPrivate;
+    QSharedPointer<AGLWmClientPrivate> d_ptr;
     QSharedPointer<LibHomeScreen> h_ptr;
-    QSharedPointer<QLibWindowmanager> w_ptr;
+    QSharedPointer<LibWindowmanager> w_ptr;
 };
 QT_END_NAMESPACE
 
-#endif // AGLWINDOW_H
+#endif // AGLWMCLIENT_H

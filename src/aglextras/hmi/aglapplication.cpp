@@ -17,8 +17,8 @@
  */
 #include "aglapplication.h"
 #include "aglapplication_p.h"
-#include "aglwindow.h"
-#include "aglwindow_p.h"
+#include "aglwmclient.h"
+#include "aglwmclient_p.h"
 
 #include <QtCore/QCommandLineParser>
 #include <QtCore/QUrlQuery>
@@ -99,15 +99,15 @@ AGLApplication::load (const QString &filePath)
 int
 AGLApplication::exec (void)
 {
-    if (d_ptr->window) {
-        d_ptr->window->attach(d_ptr->engine);
+    if (d_ptr->wmclient) {
+        d_ptr->wmclient->attach(d_ptr->engine);
     }
     return QGuiApplication::exec();
 }
 
 void AGLApplication::setupApplicationRole (const QString &role)
 {
-    d_ptr->window = new AGLWindow(role, d_ptr->port, d_ptr->secret);
+    d_ptr->wmclient = new AGLWmClient(role, d_ptr->port, d_ptr->secret);
 }
 
 QT_END_NAMESPACE

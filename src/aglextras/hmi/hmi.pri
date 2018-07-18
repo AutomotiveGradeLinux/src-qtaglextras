@@ -1,9 +1,9 @@
 SOURCES += \
         $$PWD/aglapplication.cpp \
-        $$PWD/aglwindow.cpp
+        $$PWD/aglwmclient.cpp
 
 HEADERS += \
         $$PWD/aglapplication.h \
         $$PWD/aglapplication_p.h \
-        $$PWD/aglwindow.h \
-        $$PWD/aglwindow_p.h
+        $$PWD/aglwmclient.h \
+        $$PWD/aglwmclient_p.h

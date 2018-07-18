@@ -19,18 +19,18 @@
 #define AGLWINDOW_P_H
 
 QT_BEGIN_NAMESPACE
-class AGLWindowPrivate
+class AGLWmClientPrivate
 {
   public:
-    explicit AGLWindowPrivate (AGLWindow* window);
-    ~AGLWindowPrivate (void);
+    explicit AGLWmClientPrivate (AGLWmClient* wmclient);
+    ~AGLWmClientPrivate (void);
 
   private:
     QString layout;  // id of layaout which is managed by AGL WM
     QMetaObject::Connection loading;
     bool binding = false;
-    friend class AGLWindow;
+    friend class AGLWmClient;
 };
 QT_END_NAMESPACE
 
-#endif // AGLWINDOW_P_H
+#endif // AGLWMCLIENT_P_H

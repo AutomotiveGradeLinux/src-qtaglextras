@@ -21,7 +21,7 @@
 QT_BEGIN_NAMESPACE
 class QUrl;
 class QQmlApplicationEngine;
-class AGLWindow;
+class AGLWmClient;
 class AGLApplication;
 class AGLApplicationPrivate
 {
@@ -34,7 +34,7 @@ class AGLApplicationPrivate
     QString secret;
     QUrl*   binding_address;
     QQmlApplicationEngine *engine;
-    AGLWindow* window;
+    AGLWmClient* wmclient;
     friend class AGLApplication;
 };
 QT_END_NAMESPACE
