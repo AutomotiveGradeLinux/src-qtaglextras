@@ -33,6 +33,7 @@ class AGLEXTRAS_EXPORT AGLWmClient : public QObject
 public:
     AGLWmClient (const QString& layout, int port, QString secret);
     void attach (QQmlApplicationEngine* engine);
+    double get_scale_factor (void);
 
 private slots:
     void disconnect_frame_swapped (void);

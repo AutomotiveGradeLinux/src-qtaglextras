@@ -43,6 +43,19 @@ private:
     friend class AGLApplicationPrivate;
     QSharedPointer<AGLApplicationPrivate> d_ptr;
 };
+
+class AGLScreenInfo : public QObject
+{
+    Q_OBJECT
+
+public:
+    AGLScreenInfo(QObject* parent = 0, double scale = 1.0) : QObject(parent), _scale_factor(scale) {};
+
+    Q_INVOKABLE double scale_factor() const { return _scale_factor; };
+
+private:
+    double _scale_factor;
+};
 QT_END_NAMESPACE
 
 #endif // AGLAPPLICATION_H

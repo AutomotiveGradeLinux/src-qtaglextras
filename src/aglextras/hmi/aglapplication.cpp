@@ -31,7 +31,6 @@ QT_BEGIN_NAMESPACE
 AGLApplicationPrivate::AGLApplicationPrivate (AGLApplication *app)
         : binding_address(new QUrl)
         , engine(new QQmlApplicationEngine(app))
-
 {
     ;
 }
@@ -108,6 +107,9 @@ AGLApplication::exec (void)
 void AGLApplication::setupApplicationRole (const QString &role)
 {
     d_ptr->wmclient = new AGLWmClient(role, d_ptr->port, d_ptr->secret);
+    d_ptr->screen_info = new AGLScreenInfo(this, d_ptr->wmclient->get_scale_factor());
+    d_ptr->engine->rootContext()->setContextProperty(QStringLiteral("screenInfo"),
+                                                     d_ptr->screen_info);
 }
 
 QT_END_NAMESPACE

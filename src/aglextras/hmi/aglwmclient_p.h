@@ -29,6 +29,7 @@ class AGLWmClientPrivate
     QString layout;  // id of layaout which is managed by AGL WM
     QMetaObject::Connection loading;
     bool binding = false;
+    double scale_factor = 1.0;
     friend class AGLWmClient;
 };
 QT_END_NAMESPACE

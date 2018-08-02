@@ -63,6 +63,11 @@ void AGLWmClient::disconnect_frame_swapped (void)
 #endif  // USE_AGL_HMI_LOWLEVEL_API
 }
 
+double AGLWmClient::get_scale_factor (void)
+{
+    return d_ptr->scale_factor;
+}
+
 #ifdef USE_AGL_HMI_LOWLEVEL_API
 void AGLWmClient::attach (QQmlApplicationEngine* engine)
 {
@@ -102,6 +107,19 @@ AGLWmClient::AGLWmClient (const QString&, int port, QString)
         h_ptr->init(port, secret.toStdString().c_str()) != 0) {
         qDebug("Cannot get binding API");
         return;
+    }
+
+    // Get information of screen
+    {
+        json_object *obj = json_object_new_object();
+        int ret = w_ptr->getDisplayInfo(obj);
+        if (!ret) {
+            json_object *j_val;
+            if (json_object_object_get_ex(obj, "scale", &j_val)) {
+                d_ptr->scale_factor = json_object_get_double(j_val);
+            }
+        }
+        json_object_put(obj);
     }
 
     d_ptr->binding = true;

@@ -23,6 +23,7 @@ class QUrl;
 class QQmlApplicationEngine;
 class AGLWmClient;
 class AGLApplication;
+class AGLScreenInfo;
 class AGLApplicationPrivate
 {
   public:
@@ -35,6 +36,7 @@ class AGLApplicationPrivate
     QUrl*   binding_address;
     QQmlApplicationEngine *engine;
     AGLWmClient* wmclient;
+    AGLScreenInfo* screen_info;
     friend class AGLApplication;
 };
 QT_END_NAMESPACE
