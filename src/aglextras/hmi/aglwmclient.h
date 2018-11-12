@@ -35,7 +35,7 @@ public:
     void attach (QQmlApplicationEngine* engine);
     double get_scale_factor (void);
 
-private slots:
+private Q_SLOTS:
     void disconnect_frame_swapped (void);
 
 private:
