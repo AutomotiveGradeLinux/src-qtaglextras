@@ -159,7 +159,14 @@ AGLWmClient::AGLWmClient (const QString&, int port, QString)
         LibHomeScreen::Event_TapShortcut,
         [this](json_object* object) {
             qDebug("Surface got tapShortcut\n");
-            activate_window();
+            struct json_object *obj_param = nullptr, *obj_area = nullptr;
+            if(json_object_object_get_ex(object, "parameter", &obj_param)
+            && json_object_object_get_ex(obj_param, "area", &obj_area)) {
+                w_ptr->activateWindow(d_ptr->layout.toStdString().c_str(), json_object_get_string(obj_area));
+            }
+            else {
+                w_ptr->activateWindow(d_ptr->layout.toStdString().c_str(), "normal");
+            }
         }
         );
 #endif  // USE_AGL_HMI_LOWLEVEL_API
