@@ -31,6 +31,14 @@
         }
     },
 
+    "tests": {
+        "wgtpkg-pack": {
+            "label": "wgtpkg-pack",
+            "type": "files",
+            "files": [ "wgtpkg-pack" ]
+        }
+    },
+
     "features": {
         "libhomescreen": {
             "label": "LibHomeScreen",
@@ -46,6 +54,11 @@
              "label": "AGL HMI Framework",
              "condition": "features.libhomescreen && features.libwindowmanager",
              "output": [ "feature", "privateFeature" ]
+        },
+        "wgtpkg-pack": {
+             "label": "wgtpkg-pack",
+             "condition": "tests.wgtpkg-pack",
+             "output": [ "feature", "publicFeature" ]
         }
     },
 
@@ -58,7 +71,8 @@
             "entries": [
                 "libhomescreen",
                 "libwindowmanager",
-                "agl_hmi_framework"
+                "agl_hmi_framework",
+                "wgtpkg-pack"
             ]
         }
     ]
