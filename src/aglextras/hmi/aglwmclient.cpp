@@ -154,11 +154,11 @@ AGLWmClient::AGLWmClient (const QString&, int port, QString)
         }
         );
 
-        // Set the event handler for Event_TapShortcut which will activate the surface for windowmanager
+        // Set the event handler for Event_ShowWindow which will activate the surface for windowmanager
     h_ptr->set_event_handler (
-        LibHomeScreen::Event_TapShortcut,
+        LibHomeScreen::Event_ShowWindow,
         [this](json_object* object) {
-            qDebug("Surface got tapShortcut\n");
+            qDebug("Surface got showWindow\n");
             activate_window();
         }
         );
