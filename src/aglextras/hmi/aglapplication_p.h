@@ -18,26 +18,29 @@
 #ifndef AGLAPPLICATION_P_H
 #define AGLAPPLICATION_P_H
 
+#include "private/qguiapplication_p.h"
+#include "aglapplication.h"
+#include <QtCore/QUrl>
+
 QT_BEGIN_NAMESPACE
-class QUrl;
+
 class QQmlApplicationEngine;
 class AGLWmClient;
-class AGLApplication;
 class AGLScreenInfo;
-class AGLApplicationPrivate
+class AGLApplicationPrivate : public QGuiApplicationPrivate
 {
+    Q_DECLARE_PUBLIC(AGLApplication)
   public:
-    explicit AGLApplicationPrivate (AGLApplication *app);
+    explicit AGLApplicationPrivate (int &argc, char **argv, int flags);
     ~AGLApplicationPrivate (void);
 
   private:
     int     port = -1;
     QString secret;
-    QUrl*   binding_address;
+    QUrl   binding_address;
     QQmlApplicationEngine *engine;
     AGLWmClient* wmclient;
     AGLScreenInfo* screen_info;
-    friend class AGLApplication;
 };
 QT_END_NAMESPACE
 

@@ -30,7 +30,7 @@ class AGLEXTRAS_EXPORT AGLApplication : public QGuiApplication
     Q_OBJECT
 
 public:
-    AGLApplication (int& argc, char** argv);
+    AGLApplication (int& argc, char** argv, int = ApplicationFlags);
 
     void setupApplicationRole(const QString& role);
 
@@ -40,8 +40,8 @@ public:
     int exec (void);
 
 private:
-    friend class AGLApplicationPrivate;
-    QSharedPointer<AGLApplicationPrivate> d_ptr;
+    Q_DISABLE_COPY(AGLApplication)
+    Q_DECLARE_PRIVATE(AGLApplication)
 };
 
 class AGLScreenInfo : public QObject

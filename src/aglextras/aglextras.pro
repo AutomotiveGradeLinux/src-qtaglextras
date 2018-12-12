@@ -1,7 +1,7 @@
 TARGET = QtAGLExtras
 
 QT += quick
-QT += core-private
+QT += gui-private
 
 include(hmi/hmi.pri)
 

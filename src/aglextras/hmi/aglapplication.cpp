@@ -28,9 +28,9 @@
 
 QT_BEGIN_NAMESPACE
 
-AGLApplicationPrivate::AGLApplicationPrivate (AGLApplication *app)
-        : binding_address(new QUrl)
-        , engine(new QQmlApplicationEngine(app))
+AGLApplicationPrivate::AGLApplicationPrivate (int &argc, char **argv, int flags)
+    : QGuiApplicationPrivate (argc, argv, flags)
+    , engine(nullptr)
 {
     ;
 }
@@ -40,13 +40,17 @@ AGLApplicationPrivate::~AGLApplicationPrivate (void)
     ;
 }
 
-AGLApplication::AGLApplication (int& argc, char** argv)
-        : QGuiApplication(argc, argv),
-          d_ptr(new AGLApplicationPrivate(this))
+AGLApplication::AGLApplication (int& argc, char** argv, int _internal)
+    : QGuiApplication(*new AGLApplicationPrivate(argc, argv, _internal))
 {
+    Q_D(AGLApplication);
+    d->init();
+
     setApplicationVersion(QStringLiteral("4.99.5"));
     setOrganizationDomain(QStringLiteral("automotivelinux.org"));
     setOrganizationName(QStringLiteral("AutomotiveGradeLinux"));
+
+    d->engine = new QQmlApplicationEngine(this);
 
     QCommandLineParser parser;
     parser.addPositionalArgument(QLatin1String("port"),
@@ -58,58 +62,55 @@ AGLApplication::AGLApplication (int& argc, char** argv)
     parser.process(*this);
     QStringList positionalArguments = parser.positionalArguments();
 
-    if (positionalArguments.length() < 2) {
-        return;
+    if (positionalArguments.length() == 2) {
+        d->port = positionalArguments.takeFirst().toInt();
+        d->secret = positionalArguments.takeFirst();
+
+        d->binding_address.setScheme(QStringLiteral("ws"));
+        d->binding_address.setHost(QStringLiteral("localhost"));
+        d->binding_address.setPort(d->port);
+        d->binding_address.setPath(QStringLiteral("/api"));
+
+        QUrlQuery query;
+        query.addQueryItem(QStringLiteral("token"), d->secret);
+        d->binding_address.setQuery(query);
     }
 
-    d_ptr->port = positionalArguments.takeFirst().toInt();
-    d_ptr->secret = positionalArguments.takeFirst();
-
-    d_ptr->binding_address->setScheme(QStringLiteral("ws"));
-    d_ptr->binding_address->setHost(QStringLiteral("localhost"));
-    d_ptr->binding_address->setPort(d_ptr->port);
-    d_ptr->binding_address->setPath(QStringLiteral("/api"));
-
-    QUrlQuery query;
-    query.addQueryItem(QStringLiteral("token"), d_ptr->secret);
-    d_ptr->binding_address->setQuery(query);
-
-    if (!d_ptr->engine) {
-        qDebug("Cannot initialize QML Engine");
-        exit(EXIT_FAILURE);
-    }
-
-    d_ptr->engine->rootContext()->setContextProperty(QStringLiteral("bindingAddress"),
-                                                     *d_ptr->binding_address);
+    d->engine->rootContext()->setContextProperty(QStringLiteral("bindingAddress"),
+                                                     d->binding_address);
 }
 
 void
 AGLApplication::load (const QUrl &url)
 {
-    d_ptr->engine->load(url);
+    Q_D(AGLApplication);
+    d->engine->load(url);
 }
 
 void
 AGLApplication::load (const QString &filePath)
 {
-    d_ptr->engine->load(filePath);
+    Q_D(AGLApplication);
+    d->engine->load(filePath);
 }
 
 int
 AGLApplication::exec (void)
 {
-    if (d_ptr->wmclient) {
-        d_ptr->wmclient->attach(d_ptr->engine);
+    Q_D(AGLApplication);
+    if (d->wmclient) {
+        d->wmclient->attach(d->engine);
     }
     return QGuiApplication::exec();
 }
 
 void AGLApplication::setupApplicationRole (const QString &role)
 {
-    d_ptr->wmclient = new AGLWmClient(role, d_ptr->port, d_ptr->secret);
-    d_ptr->screen_info = new AGLScreenInfo(this, d_ptr->wmclient->get_scale_factor());
-    d_ptr->engine->rootContext()->setContextProperty(QStringLiteral("screenInfo"),
-                                                     d_ptr->screen_info);
+    Q_D(AGLApplication);
+    d->wmclient = new AGLWmClient(role, d->port, d->secret);
+    d->screen_info = new AGLScreenInfo(this, d->wmclient->get_scale_factor());
+    d->engine->rootContext()->setContextProperty(QStringLiteral("screenInfo"),
+                                                     d->screen_info);
 }
 
 QT_END_NAMESPACE
