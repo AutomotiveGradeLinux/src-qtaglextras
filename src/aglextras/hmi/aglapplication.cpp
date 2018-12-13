@@ -95,6 +95,11 @@ AGLApplication::load (const QString &filePath)
     d_ptr->engine->load(filePath);
 }
 
+QQmlApplicationEngine*
+AGLApplication::getQmlApplicationEngine() const {
+    return d_ptr->engine;
+}
+
 int
 AGLApplication::exec (void)
 {
