@@ -19,9 +19,12 @@
 #define AGLAPPLICATION_H
 
 #include <QtAGLExtras/aglextrasglobal.h>
+
 #include <QSharedPointer>
 
 #include <QtGui/QGuiApplication>
+
+class QQmlApplicationEngine;
 
 QT_BEGIN_NAMESPACE
 class AGLApplicationPrivate;
@@ -36,6 +39,8 @@ public:
 
     void load (const QUrl &url);
     void load (const QString &filePath);
+
+    QQmlApplicationEngine* getQmlApplicationEngine() const;
 
     int exec (void);
 
