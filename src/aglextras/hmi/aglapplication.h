@@ -49,12 +49,27 @@ class AGLScreenInfo : public QObject
     Q_OBJECT
 
 public:
-    AGLScreenInfo(QObject* parent = 0, double scale = 1.0) : QObject(parent), _scale_factor(scale) {};
+    // AGLScreenInfo(QObject* parent = 0, double scale = 1.0) : QObject(parent), _scale_factor(scale) {};
+    AGLScreenInfo(QObject* parent = 0, double scale = 1.0, int width = 1080, int height = 1488):
+    QObject(parent),
+    _scale_factor(scale),
+    _width(width),
+    _height(height) {};
 
     Q_INVOKABLE double scale_factor() const { return _scale_factor; };
+    Q_INVOKABLE double width() const { return _width; };
+    Q_INVOKABLE double height() const { return _height; };
+
+signals:
+    void sizeChanged();
+
+public slots:
+    void setSize(int width, int height){ _width = width; _height = height; emit sizeChanged(); };
 
 private:
     double _scale_factor;
+    int _width;
+    int _height;
 };
 QT_END_NAMESPACE
 

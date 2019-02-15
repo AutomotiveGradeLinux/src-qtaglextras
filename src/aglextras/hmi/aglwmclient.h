@@ -34,6 +34,11 @@ public:
     AGLWmClient (const QString& layout, int port, QString secret);
     void attach (QQmlApplicationEngine* engine);
     double get_scale_factor (void);
+    int get_width (void);
+    int get_height (void);
+
+signals:
+    void sizeChanged(int width, int height);
 
 private Q_SLOTS:
     void disconnect_frame_swapped (void);

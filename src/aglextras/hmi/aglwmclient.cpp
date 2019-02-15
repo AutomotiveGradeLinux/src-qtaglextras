@@ -68,6 +68,16 @@ double AGLWmClient::get_scale_factor (void)
     return d_ptr->scale_factor;
 }
 
+int AGLWmClient::get_width (void)
+{
+    return d_ptr->width;
+}
+
+int AGLWmClient::get_height (void)
+{
+    return d_ptr->height;
+}
+
 #ifdef USE_AGL_HMI_LOWLEVEL_API
 void AGLWmClient::attach (QQmlApplicationEngine* engine)
 {
@@ -141,12 +151,27 @@ AGLWmClient::AGLWmClient (const QString&, int port, QString)
         setenv("QT_IVI_SURFACE_ID", ivi_id.c_str(), true);
     }
 
-
     // Create an event callback against an event type. Here a lambda is called when SyncDraw event occurs
     w_ptr->set_event_handler (
         LibWindowmanager::Event_SyncDraw,
-        [this](json_object*) {
-            qDebug("Surface got syncDraw!\n");
+        // [this](json_object*) {
+        [this](json_object* object) {
+            json_object *j_rect, *j_val;
+            int width, height;
+            json_object_object_get_ex(object, w_ptr->kKeyDrawingRect, &j_rect);
+            json_object_object_get_ex(j_rect, "width", &j_val);
+            width = json_object_get_int(j_val);
+            json_object_object_get_ex(j_rect, "height", &j_val);
+            height = json_object_get_int(j_val);
+
+            fprintf(stderr, "Surface got syncDraw Size(%d, %d)!\n", width, height);
+            if (width != d_ptr->width || height != d_ptr->height){
+                d_ptr->width = width;
+                d_ptr->height = height;
+                emit sizeChanged(width, height);
+            }
+
+            // Application should call LibWindowmanager::endDraw() in SyncDraw handler
             json_object *obj = json_object_new_object();
             std::string target = QString(d_ptr->layout).toStdString();
             json_object_object_add(obj, w_ptr->kKeyDrawingName, json_object_new_string(target.c_str()));
@@ -158,14 +183,13 @@ AGLWmClient::AGLWmClient (const QString&, int port, QString)
     h_ptr->set_event_handler (
         LibHomeScreen::Event_TapShortcut,
         [this](json_object* object) {
-            qDebug("Surface got tapShortcut\n");
             struct json_object *obj_param = nullptr, *obj_area = nullptr;
             if(json_object_object_get_ex(object, "parameter", &obj_param)
             && json_object_object_get_ex(obj_param, "area", &obj_area)) {
                 w_ptr->activateWindow(d_ptr->layout.toStdString().c_str(), json_object_get_string(obj_area));
             }
             else {
-                w_ptr->activateWindow(d_ptr->layout.toStdString().c_str(), "normal");
+                w_ptr->activateWindow(d_ptr->layout.toStdString().c_str(), "normal.full");
             }
         }
         );

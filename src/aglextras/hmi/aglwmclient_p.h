@@ -30,6 +30,8 @@ class AGLWmClientPrivate
     QMetaObject::Connection loading;
     bool binding = false;
     double scale_factor = 1.0;
+    int width = 1080;
+    int height = 1488;
     friend class AGLWmClient;
 };
 QT_END_NAMESPACE

@@ -110,6 +110,8 @@ void AGLApplication::setupApplicationRole (const QString &role)
     d_ptr->screen_info = new AGLScreenInfo(this, d_ptr->wmclient->get_scale_factor());
     d_ptr->engine->rootContext()->setContextProperty(QStringLiteral("screenInfo"),
                                                      d_ptr->screen_info);
+    QObject::connect(d_ptr->wmclient, SIGNAL(sizeChanged(int, int)),
+                     d_ptr->screen_info, SLOT(setSize(int, int)));
 }
 
 QT_END_NAMESPACE
