@@ -53,13 +53,19 @@ void AGLWmClient::activate_window (void)
 #endif  // USE_AGL_HMI_LOWLEVEL_API
 }
 
+void AGLWmClient::publishSubscription (void)
+{
+    h_ptr->publishSubscription();
+}
+
 void AGLWmClient::disconnect_frame_swapped (void)
 {
 #ifdef USE_AGL_HMI_LOWLEVEL_API
     qDebug("Disconnect!! SLOT disconnect_frame_swapped()");
     disconnect(d_ptr->loading);
 
-    activate_window();
+//    activate_window();
+    publishSubscription();
 #endif  // USE_AGL_HMI_LOWLEVEL_API
 }
 
@@ -71,13 +77,13 @@ double AGLWmClient::get_scale_factor (void)
 #ifdef USE_AGL_HMI_LOWLEVEL_API
 void AGLWmClient::attach (QQmlApplicationEngine* engine)
 {
-    if (d_ptr->binding) {
-        QQuickWindow *window = qobject_cast<QQuickWindow *>(engine->rootObjects().first());
+     if (d_ptr->binding) {
+         QQuickWindow *window = qobject_cast<QQuickWindow *>(engine->rootObjects().first());
 
-        qDebug("Connect!! frameSapped! (activate_window())");
-        d_ptr->loading = connect(window, SIGNAL(frameSwapped()),
-                                 this, SLOT(disconnect_frame_swapped()));
-    }
+         qDebug("Connect!! frameSapped! (activate_window())");
+         d_ptr->loading = connect(window, SIGNAL(frameSwapped()),
+                                  this, SLOT(disconnect_frame_swapped()));
+     }
 }
 #else
 void AGLWmClient::attach (QQmlApplicationEngine* engine)
