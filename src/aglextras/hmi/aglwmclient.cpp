@@ -53,13 +53,19 @@ void AGLWmClient::activate_window (void)
 #endif  // USE_AGL_HMI_LOWLEVEL_API
 }
 
+void AGLWmClient::publishSubscription (void)
+{
+    h_ptr->publishSubscription();
+}
+
 void AGLWmClient::disconnect_frame_swapped (void)
 {
 #ifdef USE_AGL_HMI_LOWLEVEL_API
     qDebug("Disconnect!! SLOT disconnect_frame_swapped()");
     disconnect(d_ptr->loading);
 
-    activate_window();
+//    activate_window();
+    publishSubscription();
 #endif  // USE_AGL_HMI_LOWLEVEL_API
 }
 
@@ -154,11 +160,11 @@ AGLWmClient::AGLWmClient (const QString&, int port, QString)
         }
         );
 
-        // Set the event handler for Event_TapShortcut which will activate the surface for windowmanager
+        // Set the event handler for Event_ShowWindow which will activate the surface for windowmanager
     h_ptr->set_event_handler (
-        LibHomeScreen::Event_TapShortcut,
+        LibHomeScreen::Event_ShowWindow,
         [this](json_object* object) {
-            qDebug("Surface got tapShortcut\n");
+            qDebug("Surface got showWindow\n");
             activate_window();
         }
         );

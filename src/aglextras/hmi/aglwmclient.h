@@ -40,6 +40,7 @@ private Q_SLOTS:
 
 private:
     void activate_window (void);
+    void publishSubscription (void);
     friend class AGLWmClientPrivate;
     QSharedPointer<AGLWmClientPrivate> d_ptr;
     QSharedPointer<LibHomeScreen> h_ptr;
