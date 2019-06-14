@@ -164,9 +164,18 @@ AGLWmClient::AGLWmClient (const QString&, int port, QString)
     h_ptr->set_event_handler (
         LibHomeScreen::Event_ShowWindow,
         [this](json_object* object) {
-            qDebug("Surface got showWindow\n");
-            activate_window();
+            struct json_object *obj_param = nullptr, *obj_area = nullptr;
+            if(json_object_object_get_ex(object, "parameter", &obj_param)
+            && json_object_object_get_ex(obj_param, "area", &obj_area)) {
+            	qDebug("Surface %s got showWindow, area: %s. \n", d_ptr->layout.toStdString().c_str(), json_object_get_string(obj_area));
+                w_ptr->activateWindow(d_ptr->layout.toStdString().c_str(), json_object_get_string(obj_area));
+            }
+            else {
+            	qDebug("Surface %s got showWindow.\n", d_ptr->layout.toStdString().c_str());
+                w_ptr->activateWindow(d_ptr->layout.toStdString().c_str(), "normal.full");
+            }
         }
+
         );
 #endif  // USE_AGL_HMI_LOWLEVEL_API
 }
